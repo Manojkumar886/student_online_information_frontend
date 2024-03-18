@@ -1,0 +1,9 @@
+.dashboardbody{
+    margin: 0;
+    padding: 0;
+    background-size: cover; /* Ensures the background covers the entire element */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the background image from repeating */
+    background-attachment: fixed; /* Fixes the background image, so it doesn't scroll with the content */
+    /* height: 112vh; Sets the height of the background to the viewport height */
+}
