@@ -22,6 +22,11 @@ export const loadStudentdetails = async (object) => {
     catch (err) {
         alert(err)
     }
+}
 
 
+export const onCreate = async (object) => {
+    alert(JSON.stringify(object))
+    const t = await axios.post(`http://localhost:8080/myproject/create`, object)
+    return t;
 }
