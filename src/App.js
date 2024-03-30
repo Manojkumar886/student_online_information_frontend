@@ -28,6 +28,8 @@ import { Edit_premec } from "./edit_premec";
 import { Edit_mecacademics } from "./edit_mecacademics";
 import { Edit_Cocuricular } from "./edit_coc";
 import { Edit_project } from "./edit_project";
+import { Createpersonalinfo } from "./create_personalinfo";
+import { Create_premec } from "./create_premec";
 function App() {
   return (
     <>
@@ -35,9 +37,16 @@ function App() {
         (sessionStorage.getItem("user")) ?
           <>
             <BrowserRouter>
-              <Dashborad1 />
-              <Routes>
 
+              <Routes>
+                <Route path="/" exact element={<Dashborad1 />} />
+                <Route path="userdetailupdate" exact element={<Editdashboard />} />
+                <Route path="personalinfo" exact element={<Personalinfo />} />
+                <Route path="createpersonalinfo" exact element={<Createpersonalinfo />} />
+                <Route path="editpersonalinfo" exact element={<Editpersonalinfo />} />
+                <Route path="premec" exact element={<Premec />} />
+                <Route path="create_premec" exact element={<Create_premec />} />
+                <Route path="editpremec" exact element={<Edit_premec />} />
               </Routes>
             </BrowserRouter>
           </>

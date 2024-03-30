@@ -1,10 +1,24 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './assests/dashboardcss.css';
 import './assests/editbutton.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './assests/navbar.css'
+import { onLoadoneuser } from './connect';
+
 export const Dashborad1 = () => {
 
+    const [userdetail, setUserdetail] = useState({})
+
+    const callreadingvalue = async () => {
+        const t = await onLoadoneuser();
+        setUserdetail(t.data);
+    }
+
+    useEffect(
+        () => {
+            callreadingvalue();
+        }, []
+    )
     useEffect(() => {
         const test = () => {
             var tabsNewAnim = document.getElementById('navbarSupportedContent');
@@ -131,10 +145,7 @@ export const Dashborad1 = () => {
                                             Name of the student
                                         </th>
                                         <td>
-                                            Hari prasaath J
-                                        </td>
-                                        <td rowspan="2" className="text-center">
-                                            <img src={require('./images/hariphoto.jpg')} style={{ width: '7em' }} />
+                                            {userdetail.studentName}
                                         </td>
                                     </tr>
                                     <tr>
@@ -142,7 +153,7 @@ export const Dashborad1 = () => {
                                             Batch
                                         </th>
                                         <td>
-                                            2020-2024
+                                            {userdetail.studentBatch}
                                         </td>
                                     </tr>
                                     <tr>
@@ -150,7 +161,7 @@ export const Dashborad1 = () => {
                                             Degree/branch
                                         </th>
                                         <td colspan="2">
-                                            B.tech/Artifical Intelligence and data science
+                                            {userdetail.studentDegree}
                                         </td>
                                     </tr>
                                     <tr>
@@ -158,7 +169,7 @@ export const Dashborad1 = () => {
                                             Regulation
                                         </th>
                                         <td colspan="2">
-                                            2019
+                                            {userdetail.studentRegulation}
                                         </td>
                                     </tr>
                                     <tr>
@@ -166,7 +177,7 @@ export const Dashborad1 = () => {
                                             Roll Number
                                         </th>
                                         <td colspan="2">
-                                            20AD018
+                                            {userdetail.studentRollno}
                                         </td>
                                     </tr>
                                     <tr>
@@ -174,7 +185,7 @@ export const Dashborad1 = () => {
                                             Register Number
                                         </th>
                                         <td colspan="2">
-                                            ---------
+                                            {userdetail.studentRegistrationno}
                                         </td>
                                     </tr>
                                     <tr>
@@ -182,7 +193,7 @@ export const Dashborad1 = () => {
                                             Date of Joining the Institution
                                         </th>
                                         <td colspan="2">
-                                            03.08.2020
+                                            {userdetail.studentDateofjoining}
                                         </td>
                                     </tr>
                                     <tr>
@@ -190,7 +201,7 @@ export const Dashborad1 = () => {
                                             Quota
                                         </th>
                                         <td colspan="2">
-                                            Government
+                                            {userdetail.studentQuota}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -200,7 +211,9 @@ export const Dashborad1 = () => {
 
                 </div>
                 <div class="justify-content-center d-flex p-5">
-                    <button class="editbutton fw-bold"> &nbsp;Edit <i class="bi bi-pen"></i></button>
+                    <button class="editbutton fw-bold">
+                        <a href='/userdetailupdate'>&nbsp;Edit <i class="bi bi-pen"></i></a>
+                    </button>
                 </div>
             </div>
         </>

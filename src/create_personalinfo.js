@@ -1,12 +1,12 @@
 import personal from './images/5590897.jpg';
 import './assests/editpersonalinfo.css';
 import { useEffect, useState } from 'react';
-import { onLoadpersonalinfo, onUpdatepersonal, onUpdatepersonaldetails } from './connect';
 import { useNavigate } from 'react-router-dom';
+import { onCreatepersonaldetails, onLoadoneuser } from './connect';
 
 
 
-export const Editpersonalinfo = () => {
+export const Createpersonalinfo = () => {
     const navi = useNavigate();
 
     const [personalinfo, setPersonalinfo] = useState({
@@ -41,8 +41,37 @@ export const Editpersonalinfo = () => {
         "noofsisteryounger": 0,
         "guardianname": "",
         "guardianmobileno": 0,
-        "guardianaddress": ""
+        "guardianaddress": "",
+        "studentdetails": {
+
+        }
     })
+
+    const [userdetail, setUserdetail] = useState({
+        "username": "",
+        "password": "",
+        "confirmpassword": "",
+        "studentName": "",
+        "studentBatch": "",
+        "studentDegree": "",
+        "studentDepartment": "",
+        "studentRegulation": 0,
+        "studentRollno": "",
+        "studentRegistrationno": "",
+        "studentClassadvisor": "",
+        "studentDateofjoining": "",
+        "studentQuota": ""
+    })
+
+    const callreadingvalue = async () => {
+        const t = await onLoadoneuser();
+        setUserdetail(t.data);
+    }
+
+    useEffect(() => {
+        callreadingvalue();
+    })
+
     const onGet = (getinputvalues) => {
         const { name, value } = getinputvalues.target;
         setPersonalinfo((getting) => {
@@ -52,23 +81,14 @@ export const Editpersonalinfo = () => {
             }
         });
     }
-    useEffect(() => {
-        callLoad()
-    }, [])
-    const callLoad = async () => {
-        const t = await onLoadpersonalinfo()
-        setPersonalinfo(t.data)
+
+
+    const create = async () => {
+        personalinfo.studentdetails = userdetail;
+        alert(JSON.stringify(personalinfo)); // Alerting personalinfo for debugging
+        const response = await onCreatepersonaldetails(personalinfo);
+        navi("/personalinfo");
     }
-
-    const update = async () => {
-        alert(JSON.stringify(personalinfo));
-        const yet = await onUpdatepersonal(personalinfo);
-        alert(yet.data)
-        navi("/personalinfo")
-    }
-
-
-
 
     return (
         <>
@@ -79,7 +99,7 @@ export const Editpersonalinfo = () => {
                             <h1><i class="bi bi-person-circle display-3"></i></h1>
                         </div>
                         <div className='text-center'>
-                            <h3>Personal Information update form</h3>
+                            <h3>Personal Information create form</h3>
                         </div>
                         <div className="row">
                             <div className="col">
@@ -395,7 +415,7 @@ export const Editpersonalinfo = () => {
                         <div className='d-flex justify-content-center mt-5 mb-2'>
                             <button class="button-23" role="button"
                                 onClick={() => {
-                                    update();
+                                    create();
                                 }}>Submit</button>
                         </div>
                     </div>

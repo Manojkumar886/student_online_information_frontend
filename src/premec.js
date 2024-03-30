@@ -1,10 +1,23 @@
 import './assests/premec.css';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './assests/navbar.css'
-export const Premec=()=>
-{
-    const navi= useNavigate();
+import { onLoadschoolinfo } from './connect';
+export const Premec = () => {
+    const navi = useNavigate();
+
+    const [schoolinfo, setSchoolinfo] = useState({})
+
+    const callreadingvalue = async () => {
+        const t = await onLoadschoolinfo();
+        setSchoolinfo(t.data);
+    }
+
+    useEffect(
+        () => {
+            callreadingvalue();
+        }, []
+    )
     useEffect(() => {
         const test = () => {
             var tabsNewAnim = document.getElementById('navbarSupportedContent');
@@ -63,26 +76,26 @@ export const Premec=()=>
     useEffect(() => {
         // Get current path and find target link
         let path = window.location.pathname.split("/").pop();
-    
+
         // Account for home page with empty path
         if (path === '') {
             path = 'index.html';
         }
-    
-        const target = document.querySelector('#navbarSupportedContent ul li a[href="'+path+'"]');
+
+        const target = document.querySelector('#navbarSupportedContent ul li a[href="' + path + '"]');
         // Add active class to target link
         if (target && target.parentNode) {
             target.parentNode.classList.add('active');
         }
-    }, []);    
-    return(
+    }, []);
+    return (
         <>
             <div class="premecbody">
                 <div class="container-fluid m-0 p-0">
-                <nav class="navbar fixed-top navbar-expand-custom navbar-mainbg">
-                        <a href='https://mec.edu.in/'><img class="navbar-brand navbar-logo ms-lg-4 ms-md-5 mb-1 mt-lg-1 mt-md-3 imglogo" src={require('./images/muthayammal_logo.png')} style={{'width':'2em','marginTop':'3px','borderRadius':'20%'} }></img></a><h5 class='text-white fw-bold mt-lg-0 mt-md-3 barmec' style={{'font-family': "Madimi One , sans-serif,",'fontStyle':'italic'}}>MEC Student Record</h5>
+                    <nav class="navbar fixed-top navbar-expand-custom navbar-mainbg">
+                        <a href='https://mec.edu.in/'><img class="navbar-brand navbar-logo ms-lg-4 ms-md-5 mb-1 mt-lg-1 mt-md-3 imglogo" src={require('./images/muthayammal_logo.png')} style={{ 'width': '2em', 'marginTop': '3px', 'borderRadius': '20%' }}></img></a><h5 class='text-white fw-bold mt-lg-0 mt-md-3 barmec' style={{ 'font-family': "Madimi One , sans-serif,", 'fontStyle': 'italic' }}>MEC Student Record</h5>
                         <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="bi bi-list text-white"></i>
+                            <i class="bi bi-list text-white"></i>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ml-auto">
@@ -108,19 +121,19 @@ export const Premec=()=>
                             </ul>
                             <div class="d-flex align-items-center  barbutton">
                                 <button data-mdb-ripple-init type="button" class="btn btn-danger">
-                                  Logout <i class="bi bi-arrow-right-circle ms-1"></i>
+                                    Logout <i class="bi bi-arrow-right-circle ms-1"></i>
                                 </button>
                             </div>
                         </div>
                     </nav>
                 </div>
-                    <div className="bg"style={{ fontFamily: 'Poppins, sans-serif',marginTop:'110px' }}>
+                <div className="bg" style={{ fontFamily: 'Poppins, sans-serif', marginTop: '110px' }}>
                     <div className="justify-content-center d-flex mt-5 p-3">
                         <div className="table-responsive col-lg-10 col-sm-12">
-                        <h1 className="text-center mt-4 fw-bold"><span style={{color: 'rgb(35, 35, 228)',letterSpacing:'1.5px'}}>Schooling</span> Details <i class="bi bi-backpack2"></i></h1>
-                            <table className="table table-hover table-bordered text-nowrap mt-4" style={{border:'2px solid black'}}>
+                            <h1 className="text-center mt-4 fw-bold"><span style={{ color: 'rgb(35, 35, 228)', letterSpacing: '1.5px' }}>Schooling</span> Details <i class="bi bi-backpack2"></i></h1>
+                            <table className="table table-hover table-bordered text-nowrap mt-4" style={{ border: '2px solid black' }}>
                                 <thead className="text-center" >
-                                    <tr style={{backgroundColor:'#d6e4f0'}}>
+                                    <tr style={{ backgroundColor: '#d6e4f0' }}>
                                         <th>S.no</th>
                                         <th>Particulars</th>
                                         <th colspan="2">SSLC</th>
@@ -132,76 +145,76 @@ export const Premec=()=>
                                     <tr>
                                         <th>1</th>
                                         <th>Registration NO</th>
-                                        <td colspan="2">5363958</td>
-                                        <td colspan="2">2306464</td>
-                                        <td colspan="2">-----</td>
+                                        <td colspan="2">{schoolinfo.sslcregisterno}</td>
+                                        <td colspan="2">{schoolinfo.hsccregisterno}</td>
+                                        <td colspan="2"></td>
                                     </tr>
                                     <tr>
                                         <th>2</th>
                                         <th>Medium of Instruction</th>
-                                        <td colspan="2">English</td>
-                                        <td colspan="2">English</td>
-                                        <td colspan="2">-----</td>
+                                        <td colspan="2">{schoolinfo.sslcmediumofinstruction}</td>
+                                        <td colspan="2">{schoolinfo.hscmediumofinstruction}</td>
+                                        <td colspan="2"></td>
                                     </tr>
                                     <tr>
                                         <th>3</th>
                                         <th>Year of Completion</th>
-                                        <td colspan="2">2018</td>
-                                        <td colspan="2">2020</td>
-                                        <td colspan="2">-----</td>
+                                        <td colspan="2">{schoolinfo.sslcyearofcompletion}</td>
+                                        <td colspan="2">{schoolinfo.hscyearofcompletion}</td>
+                                        <td colspan="2"></td>
                                     </tr>
                                     <tr>
                                         <th>4</th>
                                         <th>Institution Name and Address</th>
-                                        <td colspan="2">The Little Flower Higher Secondary School</td>
-                                        <td colspan="2">The Little Flower Higher Secondary School</td>
-                                        <td colspan="2">-----</td>
+                                        <td colspan="2">{schoolinfo.sslcschoolname}</td>
+                                        <td colspan="2">{schoolinfo.hscschoolname}</td>
+                                        <td colspan="2"></td>
                                     </tr>
                                     <tr>
                                         <th>5</th>
                                         <th>Certificate NO</th>
-                                        <td colspan="2">965245</td>
-                                        <td colspan="2">895745</td>
-                                        <td colspan="2">-----</td>
+                                        <td colspan="2">{schoolinfo.sslccertificateno}</td>
+                                        <td colspan="2">{schoolinfo.hsccertificateno}</td>
+                                        <td colspan="2"></td>
                                     </tr>
                                     <tr>
                                         <th>6</th>
                                         <th>Total Marks Obtained(out of)</th>
-                                        <td colspan="2">456</td>
-                                        <td colspan="2">556</td>
-                                        <td colspan="2">-----</td>
+                                        <td colspan="2">{schoolinfo.sslctotalmark}</td>
+                                        <td colspan="2">{schoolinfo.hsctotalmark}</td>
+                                        <td colspan="2"></td>
                                     </tr>
                                     <tr>
                                         <th>7</th>
                                         <th>Percentage</th>
-                                        <td colspan="2">87.1%</td>
-                                        <td colspan="2">74.1%</td>
-                                        <td colspan="2">-----</td>
+                                        <td colspan="2">{schoolinfo.sslcpercentage}</td>
+                                        <td colspan="2">{schoolinfo.hscpercentage}</td>
+                                        <td colspan="2"></td>
                                     </tr>
                                     <tr>
                                         <th rowspan="3">8</th>
                                         <th rowspan="3">Major Subjects and Marks Obtained</th>
-                                        <td>Maths</td>
-                                        <td>-----</td>
-                                        <td>Maths</td>
-                                        <td>-----</td>  
-                                        <td>-----</td>                        
+                                        <td>{schoolinfo.sslcsubjectname1}</td>
+                                        <td>{schoolinfo.sslcsubjectmark1}</td>
+                                        <td>{schoolinfo.hscsubjectname1}</td>
+                                        <td>{schoolinfo.hscsubjectmark1}</td>
+                                        <td></td>
                                     </tr>
                                     <tr>
-                                        <td>Science</td>
-                                        <td>-----</td> 
-                                        <td>Science</td>
-                                        <td>-----</td>  
-                                        <td>-----</td>                        
+                                        <td>{schoolinfo.sslcsubjectname2}</td>
+                                        <td>{schoolinfo.sslcsubjectmark2}</td>
+                                        <td>{schoolinfo.hscsubjectname2}</td>
+                                        <td>{schoolinfo.hscsubjectmark2}</td>
+                                        <td></td>
                                     </tr>
                                     <tr>
-                                        <td>Social</td>
-                                        <td>-----</td>
-                                        <td>Social</td>
-                                        <td>-----</td>
-                                        <td>-----</td>  
+                                        <td>{schoolinfo.sslcsubjectname3}</td>
+                                        <td>{schoolinfo.sslcsubjectmark3}</td>
+                                        <td>{schoolinfo.hscsubjectname3}</td>
+                                        <td>{schoolinfo.hscsubjectmark3}</td>
+                                        <td></td>
                                     </tr>
-                                    
+
                                 </tbody>
 
                             </table>
@@ -210,12 +223,14 @@ export const Premec=()=>
 
                     </div>
                 </div>
-                   
+
                 <div class="justify-content-center d-flex p-5">
-                        <button class="editbutton fw-bold" onClick={()=>
-                    {
+                    <button class="editbutton fw-bold" onClick={() => {
+                        navi("/create_premec")
+                    }}> &nbsp;CREATE <i class="bi bi-pen"></i></button>
+                    <button class="editbutton fw-bold" onClick={() => {
                         navi("/editpremec")
-                    }}> &nbsp;Edit <i class="bi bi-pen"></i></button>
+                    }}> &nbsp;EDIT <i class="bi bi-pen"></i></button>
                 </div>
             </div>
         </>

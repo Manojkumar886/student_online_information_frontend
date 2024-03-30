@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import './assests/edit_premec.css';
 import background from './images/premecbg.jpg';
 import { useEffect, useState } from 'react';
-import { onLoadoneuser, onLoadschoolinfo, onUpdateschoolinfo } from './connect';
+import { onCreateschooldetails, onLoadoneuser } from './connect';
 
 
-export let Edit_premec = () => {
+export let Create_premec = () => {
     const navi = useNavigate();
 
     const [schoolinfo, setSchoolinfo] = useState({
@@ -49,7 +49,34 @@ export let Edit_premec = () => {
         "dipsubjectmark2": 0,
         "dipsubjectname3": "",
         "dipsubjectmark3": 0,
+        "studentdetails": {
 
+        }
+    })
+
+    const [userdetail, setUserdetail] = useState({
+        "username": "",
+        "password": "",
+        "confirmpassword": "",
+        "studentName": "",
+        "studentBatch": "",
+        "studentDegree": "",
+        "studentDepartment": "",
+        "studentRegulation": 0,
+        "studentRollno": "",
+        "studentRegistrationno": "",
+        "studentClassadvisor": "",
+        "studentDateofjoining": "",
+        "studentQuota": ""
+    })
+
+    const callreadingvalue = async () => {
+        const t = await onLoadoneuser();
+        setUserdetail(t.data);
+    }
+
+    useEffect(() => {
+        callreadingvalue();
     })
 
     const onGet = (getinputvalues) => {
@@ -62,21 +89,13 @@ export let Edit_premec = () => {
         });
     }
 
-    useEffect(() => {
-        callLoad()
-    }, [])
-    const callLoad = async () => {
-        const t = await onLoadschoolinfo()
-        setSchoolinfo(t.data)
-    }
 
-    const update = async () => {
-        alert(JSON.stringify(schoolinfo));
-        const yet = await onUpdateschoolinfo(schoolinfo);
-        alert(yet.data)
-        navi("/premec")
+    const create = async () => {
+        schoolinfo.studentdetails = userdetail;
+        alert(JSON.stringify(schoolinfo)); // Alerting personalinfo for debugging
+        const response = await onCreateschooldetails(schoolinfo);
+        navi("/premec");
     }
-
 
 
     return (
@@ -424,9 +443,11 @@ export let Edit_premec = () => {
                     </div>
                     <div class='d-flex justify-content-center mt-5'>
                         <button class='editpremecbtn'
-                            onClick={() => {
-                                update();
-                            }}><span class="text">UPDATE</span><span>UPDATE</span></button>
+                            onClick={
+                                () => {
+                                    create();
+                                }
+                            }><span class="text">Submit</span><span>Submit</span></button>
                     </div>
 
                 </div>
