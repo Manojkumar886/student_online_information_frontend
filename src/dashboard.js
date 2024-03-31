@@ -6,7 +6,7 @@ import './assests/navbar.css'
 import { onLoadoneuser } from './connect';
 
 export const Dashborad1 = () => {
-
+    const navi = useNavigate();
     const [userdetail, setUserdetail] = useState({})
 
     const callreadingvalue = async () => {
@@ -211,8 +211,11 @@ export const Dashborad1 = () => {
 
                 </div>
                 <div class="justify-content-center d-flex p-5">
-                    <button class="editbutton fw-bold">
-                        <a href='/userdetailupdate'>&nbsp;Edit <i class="bi bi-pen"></i></a>
+                    <button class="editbutton fw-bold"
+                        onClick={() => {
+                            navi("/userdetailupdate");
+                        }}>
+                        &nbsp;Edit <i class="bi bi-pen"></i>
                     </button>
                 </div>
             </div>
